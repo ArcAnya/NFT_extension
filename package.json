@@ -1,7 +1,7 @@
 {
-  "name": "NFT_extension",
+  "name": "nft_extension",
   "version": "1.0.0",
-  "description": "Followed the following steps:",
+  "description": "First NFT project",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
