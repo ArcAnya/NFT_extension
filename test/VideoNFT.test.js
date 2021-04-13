@@ -5,5 +5,10 @@ require('chai')
   .should()
 
 contract('VideoNFT', (accounts) => {
-    //WIP
+    describe('deployment', async () => {
+      // async needed because interaction with blockchain
+      it('deploys successfully', async () => {
+        
+      })
+    })
 })
