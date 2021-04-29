@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "First NFT project",
   "main": "truffle-config.js",
+  "private": true,
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "repository": {
     "type": "git",
@@ -22,11 +26,39 @@
   "homepage": "https://github.com/ArcAnya/NFT_extension#readme",
   "devDependencies": {
     "@openzeppelin/contracts": "^4.0.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
     "chai": "*",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0",
     "ganache-cli": "^6.12.2",
     "mocha": "*"
   },
   "dependencies": {
-    "chai-as-promised": "^7.1.1"
-  }
+    "chai-as-promised": "^7.1.1",
+    "core-js": "^3.6.5",
+    "vue": "^3.0.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
