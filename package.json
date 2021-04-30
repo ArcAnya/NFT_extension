@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/ArcAnya/NFT_extension#readme",
   "devDependencies": {
+    "@metamask/detect-provider": "^1.2.0",
     "@openzeppelin/contracts": "^4.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
