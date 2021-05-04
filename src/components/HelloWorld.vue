@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h1 >Your chainID is: {{ chainId }}</h1>
+    <h1>Your chainID is: {{ chainId }}</h1>
   </div>
 </template>
 
@@ -40,14 +40,43 @@ export default {
     // QUESTION(bis): why was it not enough to have (w/o declaring var):
     // this.chainId = await window.ethereum.request({ method: "eth_chainId" });
     this.chainId = await ethereum.request({ method: "eth_chainId" });
-    
-    // NOTE:  to geth the chainId, the following also worked: 
+
+    // NOTE:  to geth the chainId, the following also worked:
     //        this.chainId = await window.ethereum.chainId;
-    
+
     ethereum.on("chainChanged", this.handleChainChanged);
 
     // #3. Handle user accounts and accountsChanged (per EIP-1193)
 
+    let currentAccount = null;
+    ethereum
+      .request({ method: "eth_accounts" })
+      .then(handleAccountsChanged)
+      .catch((err) => {
+        // Some unexpected error.
+        // For backwards compatibility reasons, if no accounts are available,
+        // eth_accounts will return an empty array.
+        console.error(err);
+      });
+
+    // Note that this event is emitted on page load.
+    // If the array of accounts is non-empty, you're already
+    // connected.
+    ethereum.on("accountsChanged", handleAccountsChanged);
+
+    // For now, 'eth_accounts' will continue to always return an array
+    function handleAccountsChanged(accounts) {
+      if (accounts.length === 0) {
+        // MetaMask is locked or the user has not connected any accounts
+        console.log("Please connect to MetaMask.");
+      } else if (accounts[0] !== currentAccount) {
+        currentAccount = accounts[0];
+        console.log(currentAccount);
+        // Do any other work!
+      }
+    }
+
+    // #4. Access the user's accounts (per EIP-1102)
 
 
 
