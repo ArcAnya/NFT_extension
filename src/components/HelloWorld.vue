@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h1>{{ test }}</h1>
+    <h1 >Your chainID is: {{ chainId }}</h1>
   </div>
 </template>
 
@@ -10,16 +10,17 @@
 import detectEthereumProvider from "@metamask/detect-provider";
 
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
-      test: 0,
+      chainId: undefined,
     };
   },
   async beforeMount() {
+    // #1. Detect the MetaMask Ethereum provider
     const provider = await detectEthereumProvider();
     if (provider) {
       // From now on, this should always be true:
@@ -28,6 +29,28 @@ export default {
     } else {
       console.log("Please install MetaMask!");
     }
+
+    const accounts = await window.ethereum.enable(); // prompts MetaMask and asks to connect to account
+    console.log(accounts); // returns the account connected to
+    console.log(window.ethereum);
+
+    // #2. Handle chain (network) and chainChanged (per EIP-1193)
+
+    const ethereum = window.ethereum; // QUESTION: why did I have to add this line?
+    // QUESTION(bis): why was it not enough to have (w/o declaring var):
+    // this.chainId = await window.ethereum.request({ method: "eth_chainId" });
+    this.chainId = await ethereum.request({ method: "eth_chainId" });
+    
+    // NOTE:  to geth the chainId, the following also worked: 
+    //        this.chainId = await window.ethereum.chainId;
+    
+    ethereum.on("chainChanged", this.handleChainChanged);
+
+    // #3. Handle user accounts and accountsChanged (per EIP-1193)
+
+
+
+
   },
   methods: {
     startApp(provider) {
@@ -38,8 +61,11 @@ export default {
       }
       // Access the decentralized web!
     },
-  }
-}
+    handleChainChanged() {
+      window.location.reload();
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
