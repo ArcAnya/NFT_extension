@@ -2,6 +2,7 @@
     <div class="hello">
         <h1>{{ msg }}</h1>
         <h1>Your chainID is: {{ chainId }}</h1>
+        <button @click="connect">Connect</button>
     </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
         // prompts MetaMask and asks to connect to account
         this.updateAccounts({
             accounts: await window.ethereum.request({
-                method: "eth_requestAccounts",
+                method: "eth_accounts",
             }),
         });
 
@@ -77,6 +78,18 @@ export default {
             "updateChainId",
             "updateCurrentAccount",
         ]),
+        connect() {
+            this.ethereumInfo
+                .request({ method: "eth_requestAccounts" })
+                .then(this.handleAccountsChanged)
+                .catch((err) => {
+                    if (err.code === 4001) {
+                        console.log("Please connect to MetaMask.");
+                    } else {
+                        console.error(err);
+                    }
+                });
+        },
         handleAccountsChanged(accounts) {
             if (accounts.length === 0) {
                 // MetaMask is locked or the user has not connected any accounts
