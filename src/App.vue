@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld msg="Welcome!" />
+  <ETHinfo msg="Welcome!" />
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import ETHinfo from "./components/ETHinfo.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    ETHinfo,
   },
   data() {
     return {};

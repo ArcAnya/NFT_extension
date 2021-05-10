@@ -9,9 +9,11 @@
 
 // This function detects most providers injected at window.ethereum
 import detectEthereumProvider from "@metamask/detect-provider";
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
-    name: "HelloWorld",
+    name: "ETHinfo",
     props: {
         msg: String,
     },
@@ -20,7 +22,6 @@ export default {
             chainId: undefined,
             currentAccount: undefined,
             provider: undefined,
-            ethereumInfo: undefined,
             accounts: undefined, // QUESTION: why is this not needed?
         };
     },
@@ -28,7 +29,9 @@ export default {
         
         // #1. Detect the MetaMask Ethereum provider
 
-        this.ethereumInfo = window.ethereum; // QUESTION: why did I have to add this line?
+        this.updateEthereumInfo({ ethereumInfo: window.ethereum });
+        
+        // QUESTION: why did I have to add this line?
         // QUESTION(bis): why was it not enough to have (w/o declaring var):
         // this.chainId = await window.ethereum.request({ method: "eth_chainId" });
 
@@ -36,6 +39,7 @@ export default {
 
         this.provider = await detectEthereumProvider();
         if (this.provider) {
+            // console.log(this.provider);
             // From now on, this should always be true:
             // provider === window.ethereum
             // QUESTION: Why is it NOT true then?
@@ -81,7 +85,17 @@ export default {
         
         
     },
+    computed: {
+        ...mapGetters([
+            'ethereumInfo',
+            /* 'provider', */
+        ])
+    },
     methods: {
+        ...mapActions([
+            'updateEthereumInfo',
+            /* 'updateProvider', */
+        ]),
         handleAccountsChanged(accounts) {
             if (accounts.length === 0) {
                 // MetaMask is locked or the user has not connected any accounts
