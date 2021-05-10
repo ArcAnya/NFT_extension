@@ -8,6 +8,7 @@ const store = createStore({
       provider: undefined,
       accounts: undefined,
       chainId: undefined,
+      currentAccount: undefined,
     }
   },
   mutations: {
@@ -22,6 +23,9 @@ const store = createStore({
     },
     updateChainId(state, payload) {
       state.chainId = payload;
+    },
+    updateCurrentAccount(state, payload) {
+      state.currentAccount = payload;
     }
   },
   actions: {
@@ -44,6 +48,9 @@ const store = createStore({
     },
     updateChainId(context, payload) {
       context.commit('updateChainId', payload.chainId);
+    },
+    updateCurrentAccount(context, payload) {
+      context.commit('updateCurrentAccount', payload.currentAccount);
     }
   },
   getters: {
@@ -58,6 +65,9 @@ const store = createStore({
     },
     chainId(state) {
       return state.chainId;
+    },
+    currentAccount(state) {
+      return state.currentAccount;
     }
   }
 })

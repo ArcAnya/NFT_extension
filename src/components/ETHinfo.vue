@@ -17,9 +17,7 @@ export default {
         msg: String,
     },
     data() {
-        return {
-            currentAccount: undefined,
-        };
+        return {};
     },
     async beforeMount() {
         // #1. Detect the MetaMask Ethereum provider
@@ -63,7 +61,13 @@ export default {
         // #4. Access the user's accounts (per EIP-1102)
     },
     computed: {
-        ...mapGetters(["ethereumInfo", "provider", "accounts", "chainId"]),
+        ...mapGetters([
+            "ethereumInfo",
+            "provider",
+            "accounts",
+            "chainId",
+            "currentAccount",
+        ]),
     },
     methods: {
         ...mapActions([
@@ -71,13 +75,14 @@ export default {
             "updateProvider",
             "updateAccounts",
             "updateChainId",
+            "updateCurrentAccount",
         ]),
         handleAccountsChanged(accounts) {
             if (accounts.length === 0) {
                 // MetaMask is locked or the user has not connected any accounts
                 console.log("Please connect to MetaMask.");
             } else if (accounts[0] !== this.currentAccount) {
-                this.currentAccount = accounts[0];
+                this.updateCurrentAccount({ currentAccount: accounts[0] });
                 console.log(this.currentAccount);
             }
         },
