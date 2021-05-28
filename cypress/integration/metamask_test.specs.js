@@ -1,6 +1,6 @@
 describe('User can load page', () => {
   before(() => {
-    cy.setupMetamask();
+    cy.setupMetamask()
     cy.changeMetamaskNetwork('localhost')
     cy.switchToMetamaskWindow()
     cy.importMetaMaskWalletUsingPrivateKey('0x32853dbfcdf59a0ed056e64a9d671a06d31c4822d406e50d3526accef472542d')
@@ -8,6 +8,8 @@ describe('User can load page', () => {
     cy.switchToCypressWindow()
     cy.visit('/')
   });
+
+  // need to adapt code as soon as cypress extension works
   it('is expected to display a success message', () => {
     cy.get('[data-cy=title]').should('contain.text', 'MetaMask Detected')
   });
